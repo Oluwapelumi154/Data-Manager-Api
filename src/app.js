@@ -1,0 +1,22 @@
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const userRouter = require("./routes/user-route");
+const credentialsRouter = require("./routes/credentials-route");
+const { errorMessage } = require("./utils/responses");
+const orgRouter = require("./routes/organization-route");
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(morgan("dev"));
+app.use(cors());
+app.use("/api/users", userRouter);
+app.use("/api/credential", credentialsRouter);
+app.use("/api/organization", orgRouter);
+app.all("*", (req, res, next) => {
+  return errorMessage(res, 404, `Can't find ${req.originalUrl} on this server`);
+});
+module.exports = app;

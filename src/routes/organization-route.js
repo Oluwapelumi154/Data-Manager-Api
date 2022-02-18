@@ -1,0 +1,11 @@
+const express = require("express");
+const orgRouter = express.Router();
+const orgController = require("../controllers/organization-Controller");
+const { createOrg, orgId } = require("../middlewares/Schema/schema");
+const validate = require("../middlewares/Schema/index");
+orgRouter.post("/register", createOrg(), validate, orgController.createOrg);
+orgRouter.get("/", orgController.getOrgs);
+orgRouter.get("/:orgId", orgId(), validate, orgController.getOrgById);
+orgRouter.patch("/:orgId", orgId(), validate, orgController.updateOrgId);
+orgRouter.delete("/:orgId", orgId(), validate, orgController.deleteOrgById);
+module.exports = orgRouter;
