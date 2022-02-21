@@ -12,7 +12,7 @@ module.exports = {
   },
 
   findById: async (orgId) => {
-    const OrgData = await Model.findById(orgId);
+    const OrgData = await Model.findById(orgId).populate("credentials");
     return OrgData;
   },
 
